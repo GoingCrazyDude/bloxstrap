@@ -10,9 +10,20 @@
     <Version>2.5.3</Version>
     <FileVersion>2.5.3.0</FileVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
+	<Resource Include="Resources\BootstrapperStyles\EasyAntiCheatDialog\EasyAntiCheatBackground.png" />
+	<Resource Include="Resources\BootstrapperStyles\EasyAntiCheatDialog\EasyAntiCheatLogo.png" />
     <Resource Include="Bloxstrap.ico" />
     <Resource Include="Resources\Fonts\Rubik-VariableFont_wght.ttf" />
     <Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg" />

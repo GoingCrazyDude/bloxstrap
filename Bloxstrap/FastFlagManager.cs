@@ -9,9 +9,6 @@ namespace Bloxstrap
     {
         public override string FileLocation => Path.Combine(Paths.Modifications, "ClientSettings\\ClientAppSettings.json");
 
-        // this is the value of the 'FStringPartTexturePackTablePre2022' flag
-        public const string OldTexturesFlagValue = "{\"foil\":{\"ids\":[\"rbxassetid://7546645012\",\"rbxassetid://7546645118\"],\"color\":[255,255,255,255]},\"brick\":{\"ids\":[\"rbxassetid://7546650097\",\"rbxassetid://7546645118\"],\"color\":[204,201,200,232]},\"cobblestone\":{\"ids\":[\"rbxassetid://7546652947\",\"rbxassetid://7546645118\"],\"color\":[212,200,187,250]},\"concrete\":{\"ids\":[\"rbxassetid://7546653951\",\"rbxassetid://7546654144\"],\"color\":[208,208,208,255]},\"diamondplate\":{\"ids\":[\"rbxassetid://7547162198\",\"rbxassetid://7546645118\"],\"color\":[170,170,170,255]},\"fabric\":{\"ids\":[\"rbxassetid://7547101130\",\"rbxassetid://7546645118\"],\"color\":[105,104,102,244]},\"glass\":{\"ids\":[\"rbxassetid://7547304948\",\"rbxassetid://7546645118\"],\"color\":[254,254,254,7]},\"granite\":{\"ids\":[\"rbxassetid://7547164710\",\"rbxassetid://7546645118\"],\"color\":[113,113,113,255]},\"grass\":{\"ids\":[\"rbxassetid://7547169285\",\"rbxassetid://7546645118\"],\"color\":[165,165,159,255]},\"ice\":{\"ids\":[\"rbxassetid://7547171356\",\"rbxassetid://7546645118\"],\"color\":[255,255,255,255]},\"marble\":{\"ids\":[\"rbxassetid://7547177270\",\"rbxassetid://7546645118\"],\"color\":[199,199,199,255]},\"metal\":{\"ids\":[\"rbxassetid://7547288171\",\"rbxassetid://7546645118\"],\"color\":[199,199,199,255]},\"pebble\":{\"ids\":[\"rbxassetid://7547291361\",\"rbxassetid://7546645118\"],\"color\":[208,208,208,255]},\"corrodedmetal\":{\"ids\":[\"rbxassetid://7547184629\",\"rbxassetid://7546645118\"],\"color\":[159,119,95,200]},\"sand\":{\"ids\":[\"rbxassetid://7547295153\",\"rbxassetid://7546645118\"],\"color\":[220,220,220,255]},\"slate\":{\"ids\":[\"rbxassetid://7547298114\",\"rbxassetid://7547298323\"],\"color\":[193,193,193,255]},\"wood\":{\"ids\":[\"rbxassetid://7547303225\",\"rbxassetid://7547298786\"],\"color\":[227,227,227,255]},\"woodplanks\":{\"ids\":[\"rbxassetid://7547332968\",\"rbxassetid://7546645118\"],\"color\":[212,209,203,255]},\"asphalt\":{\"ids\":[\"rbxassetid://9873267379\",\"rbxassetid://9438410548\"],\"color\":[123,123,123,234]},\"basalt\":{\"ids\":[\"rbxassetid://9873270487\",\"rbxassetid://9438413638\"],\"color\":[154,154,153,238]},\"crackedlava\":{\"ids\":[\"rbxassetid://9438582231\",\"rbxassetid://9438453972\"],\"color\":[74,78,80,156]},\"glacier\":{\"ids\":[\"rbxassetid://9438851661\",\"rbxassetid://9438453972\"],\"color\":[226,229,229,243]},\"ground\":{\"ids\":[\"rbxassetid://9439044431\",\"rbxassetid://9438453972\"],\"color\":[114,114,112,240]},\"leafygrass\":{\"ids\":[\"rbxassetid://9873288083\",\"rbxassetid://9438453972\"],\"color\":[121,117,113,234]},\"limestone\":{\"ids\":[\"rbxassetid://9873289812\",\"rbxassetid://9438453972\"],\"color\":[235,234,230,250]},\"mud\":{\"ids\":[\"rbxassetid://9873319819\",\"rbxassetid://9438453972\"],\"color\":[130,130,130,252]},\"pavement\":{\"ids\":[\"rbxassetid://9873322398\",\"rbxassetid://9438453972\"],\"color\":[142,142,144,236]},\"rock\":{\"ids\":[\"rbxassetid://9873515198\",\"rbxassetid://9438453972\"],\"color\":[154,154,154,248]},\"salt\":{\"ids\":[\"rbxassetid://9439566986\",\"rbxassetid://9438453972\"],\"color\":[220,220,221,255]},\"sandstone\":{\"ids\":[\"rbxassetid://9873521380\",\"rbxassetid://9438453972\"],\"color\":[174,171,169,246]},\"snow\":{\"ids\":[\"rbxassetid://9439632387\",\"rbxassetid://9438453972\"],\"color\":[218,218,218,255]}}";
-
         public static IReadOnlyDictionary<string, string> PresetFlags = new Dictionary<string, string>
         {
             { "Network.Log", "FLogNetwork" },
@@ -25,7 +22,14 @@ namespace Bloxstrap
 
             { "Rendering.Framerate", "DFIntTaskSchedulerTargetFps" },
             { "Rendering.ManualFullscreen", "FFlagHandleAltEnterFullscreenManually" },
-            { "Rendering.TexturePack", "FStringPartTexturePackTable2022" },
+
+            { "Rendering.Textures.New", "FStringPartTexturePackTable2022" },
+            { "Rendering.Textures.Old", "FStringPartTexturePackTablePre2022" },
+            { "Rendering.Textures.Quality.Enabled", "DFFlagTextureQualityOverrideEnabled" },
+            { "Rendering.Textures.Quality.Value", "DFIntTextureQualityOverride"},
+
+            { "Rendering.MSAA", "FIntDebugForceMSAASamples"},
+
             { "Rendering.DisableScaling", "DFFlagDisableDPIScale" },
 
             { "Rendering.Mode.D3D11", "FFlagDebugGraphicsPreferD3D11" },
@@ -49,7 +53,11 @@ namespace Bloxstrap
             { "UI.Menu.Style.ABTest.1", "FFlagEnableMenuControlsABTest" },
             { "UI.Menu.Style.ABTest.2", "FFlagEnableMenuModernizationABTest" },
             { "UI.Menu.Style.ABTest.3", "FFlagEnableMenuModernizationABTest2" },
-            { "UI.Menu.Style.ABTest.4", "FFlagEnableV3MenuABTest3" }
+            { "UI.Menu.Style.ABTest.4", "FFlagEnableV3MenuABTest3" },
+            { "UI.Menu.Accessibility.EnableAccessibility", "FFlagEnableAccessibilitySettingsAPIV2" },
+            { "UI.Menu.Accessibility.EnableEffectsInCoreScripts", "FFlagEnableAccessibilitySettingsEffectsInCoreScripts" },
+            { "UI.Menu.Accessibility.EnableEffectsInChat", "FFlagEnableAccessibilitySettingsEffectsInExperienceChat" },
+            { "UI.Menu.Accessibility.EnableSettings", "FFlagEnableAccessibilitySettingsInExperienceMenu2" }
         };
 
         // only one missing here is Metal because lol
@@ -62,6 +70,15 @@ namespace Bloxstrap
             { "OpenGL", "OpenGL" }
         };
 
+        public static IReadOnlyDictionary<string, string> TextureQuality => new Dictionary<string, string>
+        {
+            { "Automatic", "None" },
+            { "Very Low", "0" },
+            { "Low", "1" },
+            { "Medium", "2"},
+            { "High", "3" }
+        };
+
         public static IReadOnlyDictionary<string, string> LightingModes => new Dictionary<string, string>
         {
             { "Chosen by game", "None" },
@@ -72,11 +89,11 @@ namespace Bloxstrap
 
         public static IReadOnlyDictionary<string, string?> MSAAModes => new Dictionary<string, string?>
         {
+            // dont set to higher than 8 or freddy fazebear will kill you
             { "Automatic", null },
             { "1x MSAA", "1" },
             { "2x MSAA", "2" },
-            { "4x MSAA", "4" },
-            { "8x MSAA", "8" }
+            { "4x MSAA", "4" }
         };
 
         // this is one hell of a dictionary definition lmao
@@ -161,7 +178,7 @@ namespace Bloxstrap
             // check if we have an updated change for it pushed first
             if (Prop.TryGetValue(key, out object? value) && value is not null)
                 return value.ToString();
-
+            
             return null;
         }
 

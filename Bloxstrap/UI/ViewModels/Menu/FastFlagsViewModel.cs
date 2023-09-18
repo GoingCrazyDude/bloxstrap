@@ -7,6 +7,7 @@ using Wpf.Ui.Mvvm.Contracts;
 using CommunityToolkit.Mvvm.Input;
 
 using Bloxstrap.UI.Elements.Menu.Pages;
+using System.Configuration;
 
 namespace Bloxstrap.UI.ViewModels.Menu
 {
@@ -82,10 +83,36 @@ namespace Bloxstrap.UI.ViewModels.Menu
             set => App.FastFlags.SetPreset("UI.Menu.GraphicsSlider", value ? "True" : null);
         }
 
-        public bool Pre2022TexturesEnabled
+        public bool RemoveTexturesNew
         {
-            get => App.FastFlags.GetPreset("Rendering.TexturePack") == FastFlagManager.OldTexturesFlagValue;
-            set => App.FastFlags.SetPreset("Rendering.TexturePack", value ? FastFlagManager.OldTexturesFlagValue : null);
+            get => App.FastFlags.GetPreset("Rendering.Textures.New") == "";
+            set => App.FastFlags.SetPreset("Rendering.Textures.New", value ? "" : null);
+        }
+
+        public bool RemoveTexturesOld
+        {
+            get => App.FastFlags.GetPreset("Rendering.Textures.Old") == "";
+            set => App.FastFlags.SetPreset("Rendering.Textures.Old", value ? "" : null);
+        }
+
+        public IReadOnlyDictionary<string, string> TextureQuality => FastFlagManager.TextureQuality;
+        public string SelectedTextureQuality
+        {
+            get => TextureQuality.FirstOrDefault(x => x.Value == App.FastFlags.GetPreset("Rendering.Textures.Quality.Value")).Key;
+            set
+            {
+                App.FastFlags.SetPreset("Rendering.Textures.Quality.Value", TextureQuality[value]);
+                App.FastFlags.SetPreset("Rendering.Textures.Quality.Enabled", true);
+            }
+
+        }
+
+        public IReadOnlyDictionary<string, string> MSAAModes => FastFlagManager.MSAAModes;
+        public string SelectedMSAAMode
+        {
+            get => MSAAModes.First(x => x.Value == App.FastFlags.GetPreset("Rendering.MSAA")).Key ?? MSAAModes.First().Key;
+            set => App.FastFlags.SetPreset("Rendering.MSAA", MSAAModes[value]);
+
         }
 
         public IReadOnlyDictionary<string, Dictionary<string, string?>> IGMenuVersions => FastFlagManager.IGMenuVersions;

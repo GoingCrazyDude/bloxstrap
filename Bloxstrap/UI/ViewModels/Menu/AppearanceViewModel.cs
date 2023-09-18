@@ -75,6 +75,7 @@ namespace Bloxstrap.UI.ViewModels.Menu
             { "Legacy (2008 - 2011)", BootstrapperStyle.LegacyDialog2008 },
             { "Vista (2008 - 2011)", BootstrapperStyle.VistaDialog },
             { "Fake Byfron (2023)", BootstrapperStyle.ByfronDialog },
+            { "Easy Anticheat (2023)", BootstrapperStyle.EasyAntiCheatDialog },
         };
 
         public string Dialog

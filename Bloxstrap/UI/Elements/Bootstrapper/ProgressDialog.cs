@@ -78,5 +78,10 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
         {
             this.Activate();
         }
+
+        private void ProgressBar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

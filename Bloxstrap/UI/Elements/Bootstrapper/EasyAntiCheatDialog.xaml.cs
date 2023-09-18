@@ -1,21 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Mvvm.Contracts;
-using Wpf.Ui.Mvvm.Services;
-
-using Bloxstrap.UI.ViewModels.Bootstrapper;
 using Bloxstrap.UI.Elements.Bootstrapper.Base;
+using Bloxstrap.UI.ViewModels.Bootstrapper;
 
 namespace Bloxstrap.UI.Elements.Bootstrapper
 {
     /// <summary>
-    /// Interaction logic for FluentDialog.xaml
+    /// Interaction logic for EasyAntiCheatDialog.xaml
     /// </summary>
-    public partial class FluentDialog : IBootstrapperDialog
+
+    public partial class EasyAntiCheatDialog : IBootstrapperDialog
     {
-        private readonly BootstrapperDialogViewModel _viewModel;
+        private readonly EasyAntiCheatDialogViewModel _viewModel;
 
         public Bloxstrap.Bootstrapper? Bootstrapper { get; set; }
 
@@ -34,10 +31,10 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
 
         public ProgressBarStyle ProgressStyle
         {
-            get => _viewModel.ProgressIndeterminate ? ProgressBarStyle.Marquee : ProgressBarStyle.Continuous;
+            get => _viewModel.ProgressIndeterminate ? ProgressBarStyle.Continuous : ProgressBarStyle.Continuous;
             set
             {
-                _viewModel.ProgressIndeterminate = (value == ProgressBarStyle.Marquee);
+                _viewModel.ProgressIndeterminate = (value == ProgressBarStyle.Continuous);
                 _viewModel.OnPropertyChanged(nameof(_viewModel.ProgressIndeterminate));
             }
         }
@@ -65,15 +62,15 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
         }
         #endregion
 
-        public FluentDialog()
+        public EasyAntiCheatDialog()
         {
-            InitializeComponent();
-            ApplyTheme();
-
-            _viewModel = new FluentDialogViewModel(this);
+            _viewModel = new EasyAntiCheatDialogViewModel(this);
             DataContext = _viewModel;
             Title = App.Settings.Prop.BootstrapperTitle;
             Icon = App.Settings.Prop.BootstrapperIcon.GetIcon().GetImageSource();
+
+
+            InitializeComponent();
         }
 
         private void UiWindow_Closing(object sender, CancelEventArgs e)
@@ -93,5 +90,10 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
 
         public void ShowSuccess(string message, Action? callback) => BaseFunctions.ShowSuccess(message, callback);
         #endregion
+
+        private void ProgressBar_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
 }
