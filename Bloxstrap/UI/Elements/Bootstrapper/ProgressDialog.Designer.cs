@@ -49,7 +49,6 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
             ProgressBar.Size = new System.Drawing.Size(460, 20);
             ProgressBar.Style = ProgressBarStyle.Marquee;
             ProgressBar.TabIndex = 0;
-            ProgressBar.Click += ProgressBar_Click;
             // 
             // labelMessage
             // 

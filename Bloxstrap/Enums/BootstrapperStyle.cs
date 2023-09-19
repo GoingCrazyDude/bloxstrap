@@ -7,7 +7,6 @@
         LegacyDialog2011,
         ProgressDialog,
         FluentDialog,
-        ByfronDialog,
-        EasyAntiCheatDialog
+        ByfronDialog
     }
 }
