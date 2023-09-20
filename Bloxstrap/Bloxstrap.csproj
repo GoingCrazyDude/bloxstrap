@@ -13,10 +13,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\BootstrapperStyles\EACDialog\EACLogo.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Bloxstrap.ico" />
     <Resource Include="Resources\Fonts\Rubik-VariableFont_wght.ttf" />
+	<Resource Include="Resources\Fonts\Inter-VariableFont_slnt,wght.ttf" />
     <Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg" />
     <Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg" />
+	<Resource Include="Resources\BootstrapperStyles\EACDialog\EACBackground.jpg" />
+	<Resource Include="Resources\BootstrapperStyles\EACDialog\EACLogo.gif" />
     <Resource Include="Resources\Menu\StartMenu.png" />
     <Resource Include="Resources\MessageBox\Error.png" />
     <Resource Include="Resources\MessageBox\Information.png" />
@@ -40,11 +47,13 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
       <!--<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +67,12 @@
       <_Parameter3>$(CommitHash)</_Parameter3>
       <_Parameter4>$(CommitRef)</_Parameter4>
     </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="UI\ViewModels\Bootstrapper\EACDialogViewModel.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
   </ItemGroup>
 
 </Project>

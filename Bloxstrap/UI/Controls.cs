@@ -57,6 +57,7 @@ namespace Bloxstrap.UI
                 BootstrapperStyle.ProgressDialog => new ProgressDialog(),
                 BootstrapperStyle.FluentDialog => new FluentDialog(),
                 BootstrapperStyle.ByfronDialog => new ByfronDialog(),
+                BootstrapperStyle.EACDialog => new EACDialog(),
                 _ => new FluentDialog()
             };
         }

@@ -13,6 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <FontFamily x:Key="Rubik">pack://application:,,,/Resources/Fonts/#Rubik Light</FontFamily>
+            <FontFamily x:Key="Inter">pacl://application:,,,Resources/Fonts/#Inter</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
