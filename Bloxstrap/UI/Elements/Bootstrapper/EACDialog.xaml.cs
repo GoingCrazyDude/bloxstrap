@@ -33,7 +33,7 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
             get => _viewModel.ProgressIndeterminate ? ProgressBarStyle.Marquee : ProgressBarStyle.Continuous;
             set
             {
-                _viewModel.ProgressIndeterminate = (value == ProgressBarStyle.Continuous);
+                _viewModel.ProgressIndeterminate = (value == ProgressBarStyle.Marquee);
                 _viewModel.OnPropertyChanged(nameof(_viewModel.ProgressIndeterminate));
             }
         }
