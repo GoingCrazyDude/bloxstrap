@@ -32,13 +32,10 @@
                     </Path.Data>
                 </Path>
             </Button>
-            <!--<Image Source="/Resources/BootstrapperStyles/EACDialog/Reference.png" />-->
             <Image Panel.ZIndex="0" Source="{Binding EACBackgroundLocation}" Opacity="0.85" Stretch="Fill"/>
             <Grid VerticalAlignment="Bottom">
                 <Image Panel.ZIndex="2" gif:ImageBehavior.AnimatedSource="{Binding EACLogo}" gif:ImageBehavior.RepeatBehavior="1x" Width="250" Height="123" HorizontalAlignment="Left" Margin="0,0,0,0" />
-                <TextBlock Panel.ZIndex="2" Height="20" Width="380" Margin="0,56,20,62" HorizontalAlignment="Right" TextAlignment="Right" Text="{Binding Message}" Foreground="White" FontFamily="{StaticResource Inter}" FontSize="17" />
-                <TextBlock Panel.ZIndex="2" Height="20" Width="60" Margin="0,83,32,35" HorizontalAlignment="Right" TextAlignment="Right" Text="{Binding ProgressValue}" Foreground="White" FontFamily="{StaticResource Inter}" FontSize="17" />
-                <TextBlock Panel.ZIndex="2" Height="20" Width="145" Margin="0,83,10,35" HorizontalAlignment="Right" TextAlignment="Left" Text="LOADING...       %" Foreground="White" FontFamily="{StaticResource Inter}" FontSize="17" RenderTransformOrigin="0.611,0.55" />
+                <TextBlock Panel.ZIndex="2" Height="20" Width="390" Margin="0,83,10,35" HorizontalAlignment="Right" TextAlignment="Right" Text="{Binding Message}" Foreground="White" FontFamily="{StaticResource Inter}" FontSize="17" RenderTransformOrigin="0.611,0.55" />
                 <ProgressBar Panel.ZIndex="3" Width="810" Height="25" BorderThickness="0" Background="Gray" Opacity="0.75" Foreground="{StaticResource ProgressBarGradient}" IsIndeterminate="{Binding ProgressIndeterminate}" Value="{Binding ProgressValue}" Margin="-10,0,-10,-115" />
             </Grid>
         </Grid>
