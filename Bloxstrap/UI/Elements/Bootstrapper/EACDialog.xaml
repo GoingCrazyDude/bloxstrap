@@ -21,16 +21,16 @@
     </Window.Resources>
     <Border BorderBrush="#33393B3D">
         <Grid>
-            <Grid Panel.ZIndex="2" Height="40" Width="40"  Margin="45,-420,-725,0">
-                <Border BorderBrush="#33393B3D" Background="#0D3B5E" Opacity="0.75" BorderThickness="0" CornerRadius="5">
-                </Border>
-            </Grid>
-            <Button Panel.ZIndex="3" VerticalAlignment="Top" HorizontalAlignment="Right" Height="35" Width="35" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding CancelButtonVisibility, Mode=OneWay}" Command="{Binding CancelInstallCommand}" >
-                <Path Fill="White" Height="10" Stretch="Fill" Width="10">
-                    <Path.Data>
-                        <PathGeometry Figures="m 6.7507011 2.1168752 c -1.0144874 0 -2.0291944 0.3884677 -2.8065471 1.1658203 -1.5547052 1.5547053 -1.5547052 4.0583888 10e-8 5.6130941 L 28.499761 33.45088 3.9441541 58.006487 c -1.5547058 1.554706 -1.5547051 4.057873 0 5.612578 1.554705 1.554705 4.0583891 1.554705 5.6130942 0 l 24.5550907 -24.55509 24.555607 24.55509 c 1.554705 1.554705 4.057871 1.554705 5.612577 0 1.554705 -1.554706 1.554705 -4.057872 0 -5.612577 L 39.725433 33.450881 64.280523 8.89579 c 1.554706 -1.5547058 1.554705 -4.0583892 0 -5.6130942 -1.554705 -1.5547051 -4.057872 -1.5547058 -5.612578 -7e-7 L 34.112338 27.838303 9.5572482 3.2826955 C 8.7798955 2.5053428 7.7651883 2.1168752 6.7507011 2.1168752 Z" FillRule="Nonzero"/>
-                    </Path.Data>
-                </Path>
+
+            <Button Panel.ZIndex="3" VerticalAlignment="Top" HorizontalAlignment="Right" Height="64" Width="64" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding CancelButtonVisibility, Mode=OneWay}" Command="{Binding CancelInstallCommand}" Margin="0,-17,-17,0" >
+                <Grid Panel.ZIndex="2" Height="40" Width="40">
+                    <Border BorderBrush="#33393B3D" Background="#0D3B5E" Opacity="0.75" BorderThickness="0" CornerRadius="5" />
+                    <Path Fill="White" Stretch="Fill"  Height="12" Width="12" Margin="10,14,14,10">
+                        <Path.Data>
+                            <PathGeometry Figures="m 6.7507011 2.1168752 c -1.0144874 0 -2.0291944 0.3884677 -2.8065471 1.1658203 -1.5547052 1.5547053 -1.5547052 4.0583888 10e-8 5.6130941 L 28.499761 33.45088 3.9441541 58.006487 c -1.5547058 1.554706 -1.5547051 4.057873 0 5.612578 1.554705 1.554705 4.0583891 1.554705 5.6130942 0 l 24.5550907 -24.55509 24.555607 24.55509 c 1.554705 1.554705 4.057871 1.554705 5.612577 0 1.554705 -1.554706 1.554705 -4.057872 0 -5.612577 L 39.725433 33.450881 64.280523 8.89579 c 1.554706 -1.5547058 1.554705 -4.0583892 0 -5.6130942 -1.554705 -1.5547051 -4.057872 -1.5547058 -5.612578 -7e-7 L 34.112338 27.838303 9.5572482 3.2826955 C 8.7798955 2.5053428 7.7651883 2.1168752 6.7507011 2.1168752 Z" FillRule="Nonzero"/>
+                        </Path.Data>
+                    </Path>
+                </Grid>
             </Button>
             <Image Panel.ZIndex="0" Source="{Binding EACBackgroundLocation}" Opacity="0.85" Stretch="Fill"/>
             <Grid VerticalAlignment="Bottom">
