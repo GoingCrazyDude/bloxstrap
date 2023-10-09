@@ -19,19 +19,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>True</Optimize>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\BootstrapperStyles\EACDialog\EACLogo.gif" />
-  </ItemGroup>
-
+	
   <ItemGroup>
     <Resource Include="Bloxstrap.ico" />
+    <Resource Include="Resources\BootstrapperStyles\EACDialog\EACBackground.png" />
+    <Resource Include="Resources\BootstrapperStyles\EACDialog\EACLogo.gif" />
+    <Resource Include="Resources\Fonts\Inter-VariableFont_slnt,wght.ttf" />
     <Resource Include="Resources\Fonts\Rubik-VariableFont_wght.ttf" />
-	<Resource Include="Resources\Fonts\Inter-VariableFont_slnt,wght.ttf" />
     <Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg" />
     <Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg" />
-	<Resource Include="Resources\BootstrapperStyles\EACDialog\EACBackground.jpg" />
-	<Resource Include="Resources\BootstrapperStyles\EACDialog\EACLogo.gif" />
     <Resource Include="Resources\Menu\StartMenu.png" />
     <Resource Include="Resources\MessageBox\Error.png" />
     <Resource Include="Resources\MessageBox\Information.png" />

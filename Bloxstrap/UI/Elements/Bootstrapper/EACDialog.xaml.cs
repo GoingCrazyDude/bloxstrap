@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using Bloxstrap.UI.Elements.Bootstrapper.Base;
 using Bloxstrap.UI.ViewModels.Bootstrapper;
@@ -63,16 +64,14 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
 
         public EACDialog()
         {
-
             _viewModel = new EACDialogViewModel(this);
             DataContext = _viewModel;
             Title = App.Settings.Prop.BootstrapperTitle;
             Icon = App.Settings.Prop.BootstrapperIcon.GetIcon().GetImageSource();
-
             InitializeComponent();
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
+        private void UiWindow_Closing(object sender, CancelEventArgs e)
         {
             if (!_isClosing)
                 Bootstrapper?.CancelInstall();
