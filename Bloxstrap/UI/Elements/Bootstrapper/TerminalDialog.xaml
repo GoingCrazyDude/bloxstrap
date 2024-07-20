@@ -16,7 +16,7 @@
         Closing="UiWindow_Closing">
     <Grid>
         <Rectangle Width="692" Fill="#0C0C0C" Panel.ZIndex="2" Margin="0,36,0,0"/>
-        <ui:TitleBar Grid.Row="0" Panel.ZIndex="2" Padding="8" Title="" ShowMinimize="True" ShowMaximize="True" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Height="36" Margin="542,0,0,0" />
+        <ui:TitleBar Grid.Row="0" Panel.ZIndex="2" Padding="8" Title="" ShowMinimize="True" ShowMaximize="True" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Height="36" />
         <TabControl Name="Tabs" Margin="0,0,401,377">
             <TabItem Margin="14,0,-60,0">
                 <TabItem.Header>
