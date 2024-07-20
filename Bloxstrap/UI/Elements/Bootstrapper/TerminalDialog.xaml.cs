@@ -95,5 +95,10 @@ namespace Bloxstrap.UI.Elements.Bootstrapper {
 
         public void ShowSuccess(string message, Action? callback) => BaseFunctions.ShowSuccess(message, callback);
         #endregion
+
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
