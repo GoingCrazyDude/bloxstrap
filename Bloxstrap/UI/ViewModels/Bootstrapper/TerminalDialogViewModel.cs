@@ -10,8 +10,9 @@ using Wpf.Ui.Appearance;
 
 namespace Bloxstrap.UI.ViewModels.Bootstrapper {
     public class TerminalDialogViewModel : BootstrapperDialogViewModel {
-
-        public TerminalDialogViewModel(IBootstrapperDialog dialog) : base(dialog) {
+        public string Username { get; init; }
+        public TerminalDialogViewModel(IBootstrapperDialog dialog, string username) : base(dialog) {
+            Username = username;
         }
     }
 }

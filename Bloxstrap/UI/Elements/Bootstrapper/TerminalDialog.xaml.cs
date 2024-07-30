@@ -30,6 +30,7 @@ namespace Bloxstrap.UI.Elements.Bootstrapper {
         private bool _isClosing;
 
         #region UI Elements
+
         public string Message {
             get => _viewModel.Message;
             set {
@@ -74,10 +75,10 @@ namespace Bloxstrap.UI.Elements.Bootstrapper {
         #endregion
 
         public TerminalDialog() {
-            InitializeComponent();
-
-            _viewModel = new TerminalDialogViewModel(this);
+            string username = Environment.UserName.ToLower();
+            _viewModel = new TerminalDialogViewModel(this, username);
             DataContext = _viewModel;
+            InitializeComponent();
         }
 
         private void UiWindow_Closing(object sender, CancelEventArgs e) {

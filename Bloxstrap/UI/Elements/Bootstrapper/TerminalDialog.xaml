@@ -22,7 +22,8 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Resources/BootstrapperStyles/TerminalDialog/PowerShellIcon.png" Height="18" Width="18"/>
-                        <TextBlock Text="pwsh in tezos" Padding="2.5, 0 ,2.5 ,0"/>
+                        <TextBlock Text="pwsh in " Padding="2.5, 0 ,0 ,0"/>
+                        <TextBlock Text="{Binding Username}"/>
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
@@ -31,7 +32,7 @@
         <TextBlock Margin="232,48,25,341" Panel.ZIndex="2" TextAlignment="Left" Grid.Row="0" Text="{Binding Message}" Foreground="White" FontFamily="{StaticResource Rubik}" FontSize="17" FontWeight="Light" />
         <Grid Name="Prompt" Panel.ZIndex="2">
             <Grid>
-                <TextBlock Margin="5,49,592,342" Panel.ZIndex="2" TextAlignment="Center" Grid.Row="0" Text="tezos" Foreground="Black" FontFamily="{StaticResource Rubik}" FontSize="17" FontWeight="Light" />
+                <TextBlock Margin="5,49,592,342" Panel.ZIndex="2" TextAlignment="Center" Grid.Row="0" Text="{Binding Username}" Foreground="Black" FontFamily="{StaticResource Rubik}" FontSize="17" FontWeight="Light" />
                 <Path Fill="#f3ae35" Stretch="Fill" Panel.ZIndex="1" Margin="8,48,595,341">
                     <Path.Data>
                         <PathGeometry Figures="m6.53.5h73.4c.71,0,1.39.31,1.86.85l6.76,7.83c.81.94.79,2.33-.04,3.25l-6.73,7.46c-.47.52-1.13.81-1.82.81H7.67c-.64,0-1.25-.25-1.71-.69L1.24,15.43c-.48-.46-.74-1.1-.74-1.76v-7.2c0-.66.26-1.29.73-1.75l3.58-3.52c.46-.45,1.08-.7,1.72-.7Z" FillRule="NonZero"/>
