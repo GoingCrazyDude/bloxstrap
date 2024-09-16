@@ -48,7 +48,17 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 RenderOptions.BitmapScalingMode="HighQuality"
-                Source="{Binding Icon, Mode=OneWay}" />
+                Source="{Binding Icon, Mode=OneWay}" >
+                <Image.Effect>
+                    <DropShadowEffect Color="Purple"
+                                      Direction="320"
+                                      ShadowDepth="0"
+                                      BlurRadius="100"
+                                      Opacity="1">
+                        
+                    </DropShadowEffect>
+                </Image.Effect>
+            </Image>
 
             <TextBlock
                 Grid.Row="1"
