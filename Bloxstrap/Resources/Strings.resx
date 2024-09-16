@@ -1033,4 +1033,10 @@ Selecting 'No' will ignore this warning and continue installation.</value>
   <data name="Enums.BootstrapperStyle.SynapseXDialog" xml:space="preserve">
     <value>SynapseX (2024)</value>
   </data>
+  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
+    <value>OpenGL</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
+    <value>Vulkan</value>
+  </data>
 </root>
