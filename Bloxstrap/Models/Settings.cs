@@ -14,6 +14,7 @@ namespace Bloxstrap.Models
         public bool CreateDesktopIcon { get; set; } = true;
         public bool ConfirmLaunches { get; set; } = false;
         public string Locale { get; set; } = "nil";
+        public bool MultiInstanceLaunching { get; set; } = false;
         public bool ForceRobloxLanguage { get; set; } = false;
         public bool UseFastFlagManager { get; set; } = true;
 

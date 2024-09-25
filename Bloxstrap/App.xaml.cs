@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Bloxstrap.Enums;
+using System.Reflection;
 using System.Web;
 using System.Windows;
 using System.Windows.Threading;
@@ -227,7 +228,7 @@ namespace Bloxstrap
             if (!IsFirstRun)
                 ShouldSaveConfigs = true;
             
-            if (Settings.Prop.ConfirmLaunches && Mutex.TryOpenExisting("ROBLOX_singletonMutex", out var _))
+            /* if (Settings.Prop.ConfirmLaunches && Mutex.TryOpenExisting("ROBLOX_singletonMutex", out var _))
             {
                 // this currently doesn't work very well since it relies on checking the existence of the singleton mutex
                 // which often hangs around for a few seconds after the window closes
@@ -240,7 +241,7 @@ namespace Bloxstrap
                     StartupFinished();
                     return;
                 }
-            }
+            }*/
 
             // start bootstrapper and show the bootstrapper modal if we're not running silently
             Logger.WriteLine(LOG_IDENT, "Initializing bootstrapper");
@@ -253,6 +254,24 @@ namespace Bloxstrap
                 dialog = Settings.Prop.BootstrapperStyle.GetNew();
                 bootstrapper.Dialog = dialog;
                 dialog.Bootstrapper = bootstrapper;
+            }
+
+            Mutex? singletonMutex = null;
+
+            if (Settings.Prop.MultiInstanceLaunching && LaunchSettings.RobloxLaunchMode == LaunchMode.Player)
+            {
+                Logger.WriteLine(LOG_IDENT, "Creating singleton mutex");
+
+                try
+                {
+                    Mutex.OpenExisting("ROBLOX_singletonMutex");
+                    Logger.WriteLine(LOG_IDENT, "Warning - singleton mutex already exists!");
+                }
+                catch
+                {
+                    // create the singleton mutex before the game client does
+                    singletonMutex = new Mutex(true, "ROBLOX_singletonMutex");
+                }
             }
 
             Task bootstrapperTask = Task.Run(async () => await bootstrapper.Run()).ContinueWith(t =>
