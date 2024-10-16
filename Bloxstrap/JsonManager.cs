@@ -2,19 +2,14 @@
 
 namespace Bloxstrap
 {
-    public class JsonManager<T> where T : class, new()
+    public class JsonManager<T> where T : new()
     {
-        public T OriginalProp { get; set; } = new();
-        
         public T Prop { get; set; } = new();
+        public virtual string FileLocation => Path.Combine(Paths.Base, $"{typeof(T).Name}.json");
 
-        public virtual string ClassName => typeof(T).Name;
+        private string LOG_IDENT_CLASS => $"JsonManager<{typeof(T).Name}>";
 
-        public virtual string FileLocation => Path.Combine(Paths.Base, $"{ClassName}.json");
-
-        public virtual string LOG_IDENT_CLASS => $"JsonManager<{ClassName}>";
-
-        public virtual void Load(bool alertFailure = true)
+        public virtual void Load()
         {
             string LOG_IDENT = $"{LOG_IDENT_CLASS}::Load";
 
@@ -34,22 +29,7 @@ namespace Bloxstrap
             catch (Exception ex)
             {
                 App.Logger.WriteLine(LOG_IDENT, "Failed to load!");
-                App.Logger.WriteException(LOG_IDENT, ex);
-
-                if (alertFailure)
-                {
-                    string message = "";
-
-                    if (ClassName == nameof(Settings))
-                        message = Strings.JsonManager_SettingsLoadFailed;
-                    else if (ClassName == nameof(FastFlagManager))
-                        message = Strings.JsonManager_FastFlagsLoadFailed;
-
-                    if (!String.IsNullOrEmpty(message))
-                        Frontend.ShowMessageBox($"{message}\n\n{ex.Message}", System.Windows.MessageBoxImage.Warning);
-                }
-
-                Save();
+                App.Logger.WriteLine(LOG_IDENT, $"{ex.Message}");
             }
         }
 
@@ -57,24 +37,16 @@ namespace Bloxstrap
         {
             string LOG_IDENT = $"{LOG_IDENT_CLASS}::Save";
             
+            if (!App.ShouldSaveConfigs)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Save request ignored");
+                return;
+            }
+
             App.Logger.WriteLine(LOG_IDENT, $"Saving to {FileLocation}...");
 
             Directory.CreateDirectory(Path.GetDirectoryName(FileLocation)!);
-
-            try
-            {
-                File.WriteAllText(FileLocation, JsonSerializer.Serialize(Prop, new JsonSerializerOptions { WriteIndented = true }));
-            }
-            catch (IOException ex)
-            {
-                App.Logger.WriteLine(LOG_IDENT, "Failed to save");
-                App.Logger.WriteException(LOG_IDENT, ex);
-
-                string errorMessage = string.Format(Resources.Strings.Bootstrapper_JsonManagerSaveFailed, ClassName, ex.Message);
-                Frontend.ShowMessageBox(errorMessage, System.Windows.MessageBoxImage.Warning);
-
-                return;
-            }
+            File.WriteAllText(FileLocation, JsonSerializer.Serialize(Prop, new JsonSerializerOptions { WriteIndented = true }));
 
             App.Logger.WriteLine(LOG_IDENT, "Save complete!");
         }

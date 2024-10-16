@@ -2,6 +2,10 @@
 using System.Windows.Controls;
 using System.Windows.Interop;
 
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui.Mvvm.Services;
+
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -17,32 +21,32 @@ namespace Bloxstrap.UI.Elements.ContextMenu
     {
         // i wouldve gladly done this as mvvm but turns out that data binding just does not work with menuitems for some reason so idk this sucks
 
-        private readonly Watcher _watcher;
-
-        private ActivityWatcher? _activityWatcher => _watcher.ActivityWatcher;
+        private readonly ActivityWatcher? _activityWatcher;
+        private readonly DiscordRichPresence? _richPresenceHandler;
 
         private ServerInformation? _serverInformationWindow;
+        private int? _processId;
 
-        private ServerHistory? _gameHistoryWindow;
-
-        public MenuContainer(Watcher watcher)
+        public MenuContainer(ActivityWatcher? activityWatcher, DiscordRichPresence? richPresenceHandler, int? processId)
         {
             InitializeComponent();
+            ApplyTheme();
 
-            _watcher = watcher;
+            _activityWatcher = activityWatcher;
+            _richPresenceHandler = richPresenceHandler;
+            _processId = processId;
 
             if (_activityWatcher is not null)
             {
-                _activityWatcher.OnLogOpen += ActivityWatcher_OnLogOpen;
                 _activityWatcher.OnGameJoin += ActivityWatcher_OnGameJoin;
                 _activityWatcher.OnGameLeave += ActivityWatcher_OnGameLeave;
-
-                if (!App.Settings.Prop.UseDisableAppPatch)
-                    GameHistoryMenuItem.Visibility = Visibility.Visible;
             }
 
-            if (_watcher.RichPresence is not null)
+            if (_richPresenceHandler is not null)
                 RichPresenceMenuItem.Visibility = Visibility.Visible;
+
+            if (_processId is not null)
+                CloseRobloxMenuItem.Visibility = Visibility.Visible;
 
             VersionTextBlock.Text = $"{App.ProjectName} v{App.Version}";
         }
@@ -51,33 +55,27 @@ namespace Bloxstrap.UI.Elements.ContextMenu
         {
             if (_serverInformationWindow is null)
             {
-                _serverInformationWindow = new(_watcher);
+                _serverInformationWindow = new ServerInformation(_activityWatcher!);
                 _serverInformationWindow.Closed += (_, _) => _serverInformationWindow = null;
             }
 
             if (!_serverInformationWindow.IsVisible)
-                _serverInformationWindow.ShowDialog();
-            else
-                _serverInformationWindow.Activate();
+                _serverInformationWindow.Show();
+
+            _serverInformationWindow.Activate();
         }
 
-        public void ActivityWatcher_OnLogOpen(object? sender, EventArgs e) => 
-            Dispatcher.Invoke(() => LogTracerMenuItem.Visibility = Visibility.Visible);
-
-        public void ActivityWatcher_OnGameJoin(object? sender, EventArgs e)
+        private void ActivityWatcher_OnGameJoin(object? sender, EventArgs e)
         {
-            if (_activityWatcher is null)
-                return;
-
             Dispatcher.Invoke(() => {
-                if (_activityWatcher.Data.ServerType == ServerType.Public)
+                if (_activityWatcher?.ActivityServerType == ServerType.Public)
                     InviteDeeplinkMenuItem.Visibility = Visibility.Visible;
 
                 ServerDetailsMenuItem.Visibility = Visibility.Visible;
             });
         }
 
-        public void ActivityWatcher_OnGameLeave(object? sender, EventArgs e)
+        private void ActivityWatcher_OnGameLeave(object? sender, EventArgs e)
         {
             Dispatcher.Invoke(() => {
                 InviteDeeplinkMenuItem.Visibility = Visibility.Collapsed;
@@ -102,24 +100,21 @@ namespace Bloxstrap.UI.Elements.ContextMenu
 
         private void Window_Closed(object sender, EventArgs e) => App.Logger.WriteLine("MenuContainer::Window_Closed", "Context menu container closed");
 
-        private void RichPresenceMenuItem_Click(object sender, RoutedEventArgs e) => _watcher.RichPresence?.SetVisibility(((MenuItem)sender).IsChecked);
+        private void RichPresenceMenuItem_Click(object sender, RoutedEventArgs e) => _richPresenceHandler?.SetVisibility(((MenuItem)sender).IsChecked);
 
-        private void InviteDeeplinkMenuItem_Click(object sender, RoutedEventArgs e) => Clipboard.SetDataObject(_activityWatcher?.Data.GetInviteDeeplink());
+        private void InviteDeeplinkMenuItem_Click(object sender, RoutedEventArgs e) => Clipboard.SetDataObject($"roblox://experiences/start?placeId={_activityWatcher?.ActivityPlaceId}&gameInstanceId={_activityWatcher?.ActivityJobId}");
 
         private void ServerDetailsMenuItem_Click(object sender, RoutedEventArgs e) => ShowServerInformationWindow();
 
         private void LogTracerMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string? location = _activityWatcher?.LogLocation;
-
-            if (location is not null)
-                Utilities.ShellExecute(location);
+            Utilities.ShellExecute(_activityWatcher?.LogLocation!);
         }
 
         private void CloseRobloxMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = Frontend.ShowMessageBox(
-                Strings.ContextMenu_CloseRobloxMessage,
+                Bloxstrap.Resources.Strings.ContextMenu_CloseRobloxMessage,
                 MessageBoxImage.Warning,
                 MessageBoxButton.YesNo
             );
@@ -127,24 +122,9 @@ namespace Bloxstrap.UI.Elements.ContextMenu
             if (result != MessageBoxResult.Yes)
                 return;
 
-            _watcher.KillRobloxProcess();
-        }
-
-        private void JoinLastServerMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (_activityWatcher is null)
-                throw new ArgumentNullException(nameof(_activityWatcher));
-
-            if (_gameHistoryWindow is null)
-            {
-                _gameHistoryWindow = new(_activityWatcher);
-                _gameHistoryWindow.Closed += (_, _) => _gameHistoryWindow = null;
-            }
-
-            if (!_gameHistoryWindow.IsVisible)
-                _gameHistoryWindow.ShowDialog();
-            else
-                _gameHistoryWindow.Activate();
+            using Process process = Process.GetProcessById((int)_processId!);
+            process.Kill();
+            process.Close();
         }
     }
 }

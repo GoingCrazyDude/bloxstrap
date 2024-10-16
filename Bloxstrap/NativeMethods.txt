@@ -2,4 +2,4 @@
 FlashWindow
 GetWindowLong
 SetWindowLong
-SHObjectProperties
+EnumDisplaySettings

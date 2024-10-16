@@ -1,6 +1,4 @@
-﻿using Bloxstrap.RobloxInterfaces;
-
-namespace Bloxstrap.Models.Manifest
+﻿namespace Bloxstrap.Models.Manifest
 {
     public class FileManifest : List<ManifestFile>
     {
@@ -26,7 +24,7 @@ namespace Bloxstrap.Models.Manifest
 
         public static async Task<FileManifest> Get(string versionGuid)
         {
-            string pkgManifestUrl = Deployment.GetLocation($"/{versionGuid}-rbxManifest.txt");
+            string pkgManifestUrl = RobloxDeployment.GetLocation($"/{versionGuid}-rbxManifest.txt");
             var pkgManifestData = await App.HttpClient.GetStringAsync(pkgManifestUrl);
 
             return new FileManifest(pkgManifestData);

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shell;
 
 using Bloxstrap.UI.Elements.Bootstrapper.Base;
 using Bloxstrap.UI.ViewModels.Bootstrapper;
@@ -66,26 +65,6 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
             }
         }
 
-        public TaskbarItemProgressState TaskbarProgressState
-        {
-            get => _viewModel.TaskbarProgressState;
-            set
-            {
-                _viewModel.TaskbarProgressState = value;
-                _viewModel.OnPropertyChanged(nameof(_viewModel.TaskbarProgressState));
-            }
-        }
-
-        public double TaskbarProgressValue
-        {
-            get => _viewModel.TaskbarProgressValue;
-            set
-            {
-                _viewModel.TaskbarProgressValue = value;
-                _viewModel.OnPropertyChanged(nameof(_viewModel.TaskbarProgressValue));
-            }
-        }
-
         public bool CancelEnabled
         {
             get => _viewModel.CancelEnabled;
@@ -126,7 +105,7 @@ namespace Bloxstrap.UI.Elements.Bootstrapper
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (!_isClosing)
-                Bootstrapper?.Cancel();
+                Bootstrapper?.CancelInstall();
         }
 
         #region IBootstrapperDialog Methods

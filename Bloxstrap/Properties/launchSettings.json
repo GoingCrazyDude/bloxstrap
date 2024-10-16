@@ -21,15 +21,11 @@
     },
     "Bloxstrap (Deeplink)": {
       "commandName": "Project",
-      "commandLineArgs": "-player \"roblox://experiences/start?placeId=13700835620\""
+      "commandLineArgs": "roblox://experiences/start?placeId=13700835620"
     },
     "Bloxstrap (Studio Launch)": {
       "commandName": "Project",
-      "commandLineArgs": "-studio"
-    },
-    "Bloxstrap (Watcher)": {
-      "commandName": "Project",
-      "commandLineArgs": "-watcher"
+      "commandLineArgs": "-ide"
     }
   }
 }

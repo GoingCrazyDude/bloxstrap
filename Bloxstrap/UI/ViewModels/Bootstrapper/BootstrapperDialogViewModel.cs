@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shell;
 
 using CommunityToolkit.Mvvm.Input;
 
@@ -20,9 +19,6 @@ namespace Bloxstrap.UI.ViewModels.Bootstrapper
         public int ProgressMaximum { get; set; } = 0;
         public int ProgressValue { get; set; } = 0;
 
-        public TaskbarItemProgressState TaskbarProgressState { get; set; } = TaskbarItemProgressState.Indeterminate;
-        public double TaskbarProgressValue { get; set; } = 0;
-
         public bool CancelEnabled { get; set; } = false;
         public Visibility CancelButtonVisibility => CancelEnabled ? Visibility.Visible : Visibility.Collapsed;
 
@@ -39,7 +35,7 @@ namespace Bloxstrap.UI.ViewModels.Bootstrapper
 
         private void CancelInstall()
         {
-            _dialog.Bootstrapper?.Cancel();
+            _dialog.Bootstrapper?.CancelInstall();
             _dialog.CloseBootstrapper();
         }
     }

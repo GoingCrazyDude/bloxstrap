@@ -12,107 +12,176 @@ namespace Bloxstrap
 {
     public class LaunchSettings
     {
-        public LaunchFlag MenuFlag      { get; } = new("preferences,menu,settings");
+        [LaunchFlag(new[] { "-preferences", "-menu" })]
+        public bool IsMenuLaunch { get; private set; } = false;
 
-        public LaunchFlag WatcherFlag   { get; } = new("watcher");
+        [LaunchFlag("-quiet")]
+        public bool IsQuiet { get; private set; } = false;
 
-        public LaunchFlag QuietFlag     { get; } = new("quiet");
+        [LaunchFlag("-uninstall")]
+        public bool IsUninstall { get; private set; } = false;
 
-        public LaunchFlag UninstallFlag { get; } = new("uninstall");
+        [LaunchFlag("-nolaunch")]
+        public bool IsNoLaunch { get; private set; } = false;
 
-        public LaunchFlag NoLaunchFlag  { get; } = new("nolaunch");
-        
-        public LaunchFlag TestModeFlag  { get; } = new("testmode");
+        [LaunchFlag("-upgrade")]
+        public bool IsUpgrade { get; private set; } = false;
 
-        public LaunchFlag NoGPUFlag     { get; } = new("nogpu");
+        public LaunchMode RobloxLaunchMode { get; private set; } = LaunchMode.Player;
 
-        public LaunchFlag UpgradeFlag   { get; } = new("upgrade");
-        
-        public LaunchFlag PlayerFlag    { get; } = new("player");
-        
-        public LaunchFlag StudioFlag    { get; } = new("studio");
-
-#if DEBUG
-        public bool BypassUpdateCheck => true;
-#else
-        public bool BypassUpdateCheck => UninstallFlag.Active || WatcherFlag.Active;
-#endif
-
-        public LaunchMode RobloxLaunchMode { get; set; } = LaunchMode.None;
-
-        public string RobloxLaunchArgs { get; set; } = "";
+        public string RobloxLaunchArgs { get; private set; } = "--app";
 
         /// <summary>
         /// Original launch arguments
         /// </summary>
         public string[] Args { get; private set; }
 
-        private readonly Dictionary<string, LaunchFlag> _flagMap = new();
+        private Dictionary<string, PropertyInfo>? _flagMap;
 
-        public LaunchSettings(string[] args)
+        private string? _robloxArg;
+        
+        // pizzaboxer wanted this
+        private void ParseLaunchFlagProps()
         {
-            const string LOG_IDENT = "LaunchSettings";
+            _flagMap = new Dictionary<string, PropertyInfo>();
 
-            Args = args;
-
-            // build flag map
-            foreach (var prop in this.GetType().GetProperties())
+            foreach (var prop in typeof(LaunchSettings).GetProperties())
             {
-                if (prop.PropertyType != typeof(LaunchFlag))
+                var attr = prop.GetCustomAttribute<LaunchFlagAttribute>();
+
+                if (attr == null)
                     continue;
 
-                if (prop.GetValue(this) is not LaunchFlag flag)
-                    continue;
-
-                foreach (string identifier in flag.Identifiers.Split(','))
-                    _flagMap.Add(identifier, flag);
-            }
-
-            // parse
-            for (int i = 0; i < Args.Length; i++)
-            {
-                string arg = Args[i];
-
-                if (!arg.StartsWith('-'))
-                    continue;
-
-                string identifier = arg[1..];
-
-                if (!_flagMap.TryGetValue(identifier, out LaunchFlag? flag) || flag is null)
-                    continue;
-
-                flag.Active = true;
-
-                if (i < Args.Length - 1 && Args[i+1] is string nextArg && !nextArg.StartsWith('-'))
+                if (!string.IsNullOrEmpty(attr.Name))
                 {
-                    flag.Data = nextArg;
-                    App.Logger.WriteLine(LOG_IDENT, $"Identifier '{identifier}' is active with data");
+                    _flagMap[attr.Name] = prop;
                 }
                 else
                 {
-                    App.Logger.WriteLine(LOG_IDENT, $"Identifier '{identifier}' is active");
+                    foreach (var name in attr.Names!)
+                        _flagMap[name] = prop;
                 }
             }
+        }
+        
+        private void ParseFlag(string arg)
+        {
+            const string LOG_IDENT = "LaunchSettings::ParseFlag";
 
-            if (PlayerFlag.Active)
-                ParsePlayer(PlayerFlag.Data);
-            else if (StudioFlag.Active)
-                ParseStudio(StudioFlag.Data);
+            arg = arg.ToLowerInvariant();
+
+            if (_flagMap!.ContainsKey(arg))
+            {
+                var prop = _flagMap[arg];
+                prop.SetValue(this, true);
+                App.Logger.WriteLine(LOG_IDENT, $"Started with {prop.Name} flag");
+            }
         }
 
-        private void ParsePlayer(string? data)
+        // private void ParseRoblox(string arg, ref int i)
+        public void ParseRoblox()
         {
-            RobloxLaunchMode = LaunchMode.Player;
+            string? arg = _robloxArg;
 
-            if (!String.IsNullOrEmpty(data))
-                RobloxLaunchArgs = data;
+            if (arg is null)
+                return;
+
+            if (arg.StartsWith("roblox-player:"))
+            {
+                RobloxLaunchArgs = ProtocolHandler.ParseUri(arg);
+
+                RobloxLaunchMode = LaunchMode.Player;
+            }
+            else if (arg.StartsWith("roblox:"))
+            {
+
+                RobloxLaunchArgs = $"--app --deeplink {arg}";
+
+                RobloxLaunchMode = LaunchMode.Player;
+            }
+#if STUDIO_FEATURES
+            else if (arg.StartsWith("roblox-studio:"))
+            {
+                RobloxLaunchArgs = ProtocolHandler.ParseUri(arg);
+
+                if (!RobloxLaunchArgs.Contains("-startEvent"))
+                    RobloxLaunchArgs += " -startEvent www.roblox.com/robloxQTStudioStartedEvent";
+
+                RobloxLaunchMode = LaunchMode.Studio;
+            }
+            else if (arg.StartsWith("roblox-studio-auth:"))
+            {
+                RobloxLaunchArgs = HttpUtility.UrlDecode(arg);
+
+                RobloxLaunchMode = LaunchMode.StudioAuth;
+            }
+            else if (arg == "-ide")
+            {
+                RobloxLaunchMode = LaunchMode.Studio;
+
+                if (Args.Length >= 2)
+                {
+                    string pathArg = Args[i + 1];
+
+                    if (pathArg.StartsWith('-'))
+                        return; // likely a launch flag, ignore it.
+
+                    i++; // path arg
+                    RobloxLaunchArgs = $"-task EditFile -localPlaceFile \"{pathArg}\"";
+                }
+            }
+#endif
         }
 
-        private void ParseStudio(string? data)
+        private void Parse()
         {
-            RobloxLaunchMode = LaunchMode.Studio;
+            const string LOG_IDENT = "LaunchSettings::Parse";
 
-            // TODO: do this later
+            App.Logger.WriteLine(LOG_IDENT, "Parsing launch arguments");
+
+#if DEBUG
+            App.Logger.WriteLine(LOG_IDENT, $"Launch arguments: {string.Join(' ', Args)}");
+#endif
+
+            if (Args.Length == 0)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "No launch arguments to parse");
+                return;
+            }
+
+            int idx = 0;
+            string firstArg = Args[0];
+
+            // check & handle roblox arg
+            if (!firstArg.StartsWith('-') || firstArg == "-ide")
+            {
+                // ParseRoblox(firstArg, ref idx);
+                _robloxArg = firstArg;
+                idx++; // roblox arg
+            }
+
+            // check if there are any launch flags
+            if (idx > Args.Length - 1)
+                return;
+
+            App.Logger.WriteLine(LOG_IDENT, "Parsing launch flags");
+
+            // map out launch flags
+            ParseLaunchFlagProps();
+
+            // parse any launch flags
+            for (int i = idx; i < Args.Length; i++)
+                ParseFlag(Args[i]);
+
+            // cleanup flag map
+            _flagMap!.Clear();
+            _flagMap = null;
+        }
+
+        public LaunchSettings(string[] args)
+        {
+            Args = args;
+            Parse();
         }
     }
 }

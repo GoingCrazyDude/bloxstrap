@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-using System.Windows.Shell;
 
 namespace Bloxstrap.UI
 {
@@ -11,8 +10,6 @@ namespace Bloxstrap.UI
         ProgressBarStyle ProgressStyle { get; set; }
         int ProgressValue { get; set; }
         int ProgressMaximum { get; set; }
-        TaskbarItemProgressState TaskbarProgressState { get; set; }
-        double TaskbarProgressValue { get; set; }
         bool CancelEnabled { get; set; }
 
         void ShowBootstrapper();

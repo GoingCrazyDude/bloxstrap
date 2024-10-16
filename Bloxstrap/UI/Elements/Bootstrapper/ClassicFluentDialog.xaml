@@ -19,10 +19,6 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
-    <Window.TaskbarItemInfo>
-        <TaskbarItemInfo ProgressState="{Binding Path=TaskbarProgressState}" ProgressValue="{Binding Path=TaskbarProgressValue}" />
-    </Window.TaskbarItemInfo>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

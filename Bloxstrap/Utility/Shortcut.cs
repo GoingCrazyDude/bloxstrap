@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Bloxstrap.Resources;
 
 namespace Bloxstrap.Utility
 {
@@ -31,7 +30,10 @@ namespace Bloxstrap.Utility
 
                 _loadStatus = GenericTriState.Failed;
 
-                Frontend.ShowMessageBox(Strings.Dialog_CannotCreateShortcuts, MessageBoxImage.Information);
+                Frontend.ShowMessageBox(
+                    $"{App.ProjectName} was unable to create shortcuts for the Desktop and Start menu. They will be created the next time Roblox is launched.",
+                    MessageBoxImage.Information
+                );
             }
         }
     }
