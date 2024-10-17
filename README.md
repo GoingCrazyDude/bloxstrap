@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This fork is no longer being developed. If you have any questions, please refer to the discord post in the [Bloxstrap discord server](https://discord.com/channels/1099468797410283540/1252560582469619782/1296419223664328767).
+
 > [!CAUTION]
 > The only official places to download Bloxstrap are this GitHub repository and [bloxstrap.pizzaboxer.xyz](https://bloxstrap.pizzaboxer.xyz). Any other websites offering downloads or claiming to be us are not controlled by us.
 
